@@ -3,14 +3,14 @@
 * This file creates Admin menu page
 */
 
-class MAVP_create_admin_page {
+class Saucal_create_admin_page {
 
     private $slug = 'saucal-custom-api-woocommerce-data';
 
     public function __construct() {
 
         add_action( 'admin_menu', [ $this, 'create_admin_menu' ] );
-        add_action( 'admin_init', [ $this, 'pharmacy_settings_fields' ] );
+        add_action( 'admin_init', [ $this, 'saucal_settings_fields' ] );
     }
 
     public function create_admin_menu() {
@@ -40,42 +40,42 @@ class MAVP_create_admin_page {
         <form action = 'options.php' method = 'post'>
 
         <?php
-        settings_fields( 'pharmacy_key_setting' );
+        settings_fields( 'saucal_api_url_setting' );
         do_settings_sections( $this->slug );
         submit_button();
         ?>
         </form>
 
-        <?php }
+    <?php }
 
-        
 
-        public function pharmacy_settings_fields() {
-            add_settings_section(
-                'custom_api_settings_section',
-                __( '<h1>Custom API woocommerce settings</h2>', 'saucal' ),
-                null,
-                $this->slug
-            );
 
-            add_settings_field(
-                'custom_api_url_field',
-                __( 'Custom API url:', 'saucal' ),
-                [ $this, 'custom_api_url_field_cb' ],
-                $this->slug,
-                'custom_api_settings_section'
-            );
+    public function saucal_settings_fields() {
+        add_settings_section(
+            'custom_api_settings_section',
+            __( '<h1>Custom API woocommerce settings</h2>', 'saucal' ),
+            null,
+            $this->slug
+        );
 
-            register_setting( 'pharmacy_key_setting', 'custom_api_url_field' );
+        add_settings_field(
+            'custom_api_url_field',
+            __( 'Custom API url:', 'saucal' ),
+            [ $this, 'custom_api_url_field_cb' ],
+            $this->slug,
+            'custom_api_settings_section'
+        );
 
-        }
-
-        public function custom_api_url_field_cb() {
-            ?>
-            <input type = 'text' id = 'custom_api_url' name = 'custom_api_url_field'  value = '<?php esc_attr_e(get_option('custom_api_url_field'))?>' >
-            <?php
-        }
+        register_setting( 'saucal_api_url_setting', 'custom_api_url_field' );
 
     }
 
-    new MAVP_create_admin_page();
+    public function custom_api_url_field_cb() {
+        ?>
+        <input type = 'text' id = 'custom_api_url' name = 'custom_api_url_field'  value = '<?php esc_attr_e(get_option('custom_api_url_field'))?>' >
+        <?php
+    }
+
+}
+
+    new Saucal_create_admin_page();
