@@ -35,6 +35,8 @@ add_action('woocommerce_account_saucal_api_custom_tab_endpoint', function () {
     }
 
     $preference = get_user_meta($user_id, 'api-preferences', true);
+    $user_preferences = explode(",", $preference);
+    $data = fetch_api_data($user_preferences);
 
     $controls = '<h1> Please Enter your Preferences in the Box below</h1>
             <form action = "" method = "post">
@@ -46,6 +48,10 @@ add_action('woocommerce_account_saucal_api_custom_tab_endpoint', function () {
                 <input type="submit" value="Save">
              </form>';
      printf($controls, $preference);
+
+
+
+     print_r($data);
 
 }
 );
