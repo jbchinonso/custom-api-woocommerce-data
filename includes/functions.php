@@ -1,5 +1,24 @@
 <?php
 
+function fetch_api_data($preferences)
+{
+    $api_url = sanitize_url(get_option('custom_api_url_field'));
+
+    $response = wp_remote_post($api_url, array(
+        'body' => json_encode($preferences),
+        'headers' => array('Content-Type' => 'application/json'),
+    ));
+
+    if (is_wp_error($response)) {
+        return;
+    }
+
+    $body = wp_remote_retrieve_body($response);
+    $data = json_decode($body, true);
+
+    return $data['headers'];
+}
+
 // Add a new tab in My Account section
 add_filter('woocommerce_account_menu_items', function ($menu_items) {
     $menu_items['saucal_api_custom_tab'] = 'Saucal API Tab';
