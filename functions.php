@@ -2,7 +2,15 @@
 
 function fetch_api_data($preferences)
 {
-    $api_url = sanitize_url(get_option('custom_api_url_field'));
+    $api_url = sanitize_url(get_option(API_URL));
+
+    //Retrieve cached data
+    $cache = get_transient(CACHE_NAME);
+
+    if($cache){
+        $data = json_decode($cache, true);
+        return $data;
+    }
 
     $response = wp_remote_post($api_url, array(
         'body' => json_encode($preferences),
@@ -13,19 +21,11 @@ function fetch_api_data($preferences)
         return;
     }
 
-    //Retrieve cache data
-    $cache = get_transient('saucal_api_results');
-
-    if($cache){
-        $data = json_decode($cache, true);
-        return $data;
-    }
-
     $body = wp_remote_retrieve_body($response);
     $data = json_decode($body, true);
 
     //save result in cache for 12 hours
-    set_transient('saucal_api_results', json_encode($data['headers']), 60*60*12 );
+    set_transient(CACHE_NAME, json_encode($data['headers']), 60*60*12 );
 
     return $data['headers'];
 }
@@ -44,11 +44,11 @@ add_action('woocommerce_account_saucal_api_custom_tab_endpoint', function () {
     if (isset($_POST['api-preferences'])) {
         if(isset($_POST['saucal_nonce']) && wp_verify_nonce($_POST['saucal_nonce'], "")){
             
-            update_user_meta($user_id, 'api-preferences', sanitize_text_field($_POST['api-preferences']));
+            update_user_meta($user_id, USER_PREFERENCE, sanitize_text_field($_POST['api-preferences']));
         }
     }
 
-    $preference = get_user_meta($user_id, 'api-preferences', true);
+    $preference = get_user_meta($user_id, USER_PREFERENCE, true);
     $user_preferences = explode(",", $preference);
     $data = fetch_api_data($user_preferences);
 

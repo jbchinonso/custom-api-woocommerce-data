@@ -18,7 +18,7 @@ endif;
 
 define( 'SAUCAL_PATH', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 
-
+require_once SAUCAL_PATH . 'includes/constants.php';
 require_once SAUCAL_PATH . 'functions.php';
 
 

@@ -59,7 +59,7 @@ class Saucal_create_admin_page {
         );
 
         add_settings_field(
-            'custom_api_url_field',
+            API_URL,
             __( 'Custom API url:', 'saucal' ),
             [ $this, 'custom_api_url_field_cb' ],
             $this->slug,
