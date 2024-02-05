@@ -18,5 +18,24 @@ endif;
 
 define( 'SAUCAL_PATH', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 
-require_once SAUCAL_PATH . 'includes/create-admin-menu.php';
-require_once SAUCAL_PATH . 'includes/functions.php';
+
+require_once SAUCAL_PATH . 'functions.php';
+
+
+//Register Styles
+function saucal_enqueue_plugin_assets()
+{
+    wp_register_style(
+        'saucal_api_style',
+        plugins_url('assets/saucal-main.css', __FILE__),
+        [],
+        filemtime(SAUCAL_PATH . 'assets/saucal-main.css')
+    );
+
+    wp_enqueue_style('saucal_api_style');
+
+}
+
+
+add_action('wp_enqueue_scripts', 'saucal_enqueue_plugin_assets');
+
