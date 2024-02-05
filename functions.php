@@ -13,8 +13,19 @@ function fetch_api_data($preferences)
         return;
     }
 
+    //Retrieve cache data
+    $cache = get_transient('saucal_api_results');
+
+    if($cache){
+        $data = json_decode($cache, true);
+        return $data;
+    }
+
     $body = wp_remote_retrieve_body($response);
     $data = json_decode($body, true);
+
+    //save result in cache for 12 hours
+    set_transient('saucal_api_results', json_encode($data['headers']), 60*60*12 );
 
     return $data['headers'];
 }
