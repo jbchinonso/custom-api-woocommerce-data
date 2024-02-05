@@ -42,7 +42,10 @@ add_action('woocommerce_account_saucal_api_custom_tab_endpoint', function () {
 
     $user_id = get_current_user_id();
     if (isset($_POST['api-preferences'])) {
-        update_user_meta($user_id, 'api-preferences', sanitize_text_field($_POST['api-preferences']));
+        if(isset($_POST['saucal_nonce']) && wp_verify_nonce($_POST['saucal_nonce'], "")){
+            
+            update_user_meta($user_id, 'api-preferences', sanitize_text_field($_POST['api-preferences']));
+        }
     }
 
     $preference = get_user_meta($user_id, 'api-preferences', true);
@@ -50,10 +53,11 @@ add_action('woocommerce_account_saucal_api_custom_tab_endpoint', function () {
     $data = fetch_api_data($user_preferences);
 
     $content = file_get_contents(SAUCAL_PATH . 'templates/tab-frontend.php');
+    $nonce_fields = wp_nonce_field("", "saucal_nonce");
 
-
-    printf($content,
-        $preference, $data['Accept'],
+    printf($content, 
+        $preference, $nonce_fields,
+        $data['Accept'],
         $data['Accept-Encoding'],
         $data['Content-Length'],
         $data['Content-Type'],

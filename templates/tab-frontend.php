@@ -7,7 +7,7 @@
                     </label>
                     <input type="text" name="api-preferences" id="api-preferences" value="%s" placeholder="phones,laptops,tablets">
                 </div>
-
+                   %s
                 <input type="submit" value="Save">
              </form>
              <div class="wrapper">
