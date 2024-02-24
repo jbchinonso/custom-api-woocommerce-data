@@ -74,6 +74,3 @@ add_action('init', function () {
     flush_rewrite_rules();
 }
 );
-
-require_once SAUCAL_PATH . 'includes/create-admin-menu.php';
-require_once SAUCAL_PATH . 'includes/widget.php';

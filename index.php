@@ -13,14 +13,32 @@
 * Requires PHP at least: 7.0
 *
 */
+namespace App;
+
 if ( !defined( 'ABSPATH' ) ): exit();
 endif;
+
+spl_autoload_register(function ($class) {
+    $baseDir = plugin_dir_path(__FILE__);
+    $class_path = $baseDir . str_replace('\\', '/', $class) . '.php';
+
+    if (file_exists($class_path)) {
+        require_once $class_path;
+    }
+
+});
+
 
 define( 'SAUCAL_PATH', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 
 require_once SAUCAL_PATH . 'includes/constants.php';
 require_once SAUCAL_PATH . 'functions.php';
 
+use includes\CreateAdminMenu;
+use includes\SaucalWidget;
+
+
+new CreateAdminMenu();
 
 //Register Styles
 function saucal_enqueue_plugin_assets()
@@ -37,5 +55,11 @@ function saucal_enqueue_plugin_assets()
 }
 
 
-add_action('wp_enqueue_scripts', 'saucal_enqueue_plugin_assets');
+add_action('wp_enqueue_scripts', 'App\saucal_enqueue_plugin_assets');
 
+
+function register_widgets()
+{
+    return register_widget('includes\SaucalWidget');
+}
+add_action('widgets_init', 'App\register_widgets');

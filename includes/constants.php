@@ -1,4 +1,5 @@
 <?php
+namespace includes;
 
 define( 'USER_PREFERENCE', 'api-preferences' );
 define( 'CACHE_NAME', 'saucal_api_results' );

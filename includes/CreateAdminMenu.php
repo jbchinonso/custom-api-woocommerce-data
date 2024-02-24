@@ -3,7 +3,9 @@
 * This file creates Admin menu page
 */
 
-class Saucal_create_admin_page {
+namespace includes;
+
+class CreateAdminMenu {
 
     private $slug = 'saucal-custom-api-woocommerce-data';
 
@@ -78,4 +80,3 @@ class Saucal_create_admin_page {
 
 }
 
-    new Saucal_create_admin_page();

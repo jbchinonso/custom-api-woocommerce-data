@@ -1,6 +1,13 @@
 <?php
+namespace includes;
 
-class Saucal_Api_Widget extends WP_Widget {
+use WP_Widget;
+
+
+
+
+
+class SaucalWidget extends WP_Widget {
 
     function __construct() {
 
@@ -63,8 +70,3 @@ class Saucal_Api_Widget extends WP_Widget {
     }
 
 }
-
-function saucal_load_widget() {
-    register_widget( 'Saucal_Api_Widget' );
-}
-add_action( 'widgets_init', 'saucal_load_widget' );
