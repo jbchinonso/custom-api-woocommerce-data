@@ -1,11 +1,13 @@
 <?php
 
+use includes\Constants;
+
 function fetch_api_data($preferences)
 {
-    $api_url = sanitize_url(get_option(API_URL));
+    $api_url = sanitize_url(get_option(Constants::API_URL));
 
     //Retrieve cached data
-    $cache = get_transient(CACHE_NAME);
+    $cache = get_transient(Constants::CACHE_NAME);
 
     if($cache){
         $data = json_decode($cache, true);
@@ -25,7 +27,7 @@ function fetch_api_data($preferences)
     $data = json_decode($body, true);
 
     //save result in cache for 12 hours
-    set_transient(CACHE_NAME, json_encode($data['headers']), 60*60*12 );
+    set_transient(Constants::CACHE_NAME, json_encode($data['headers']), 60*60*12 );
 
     return $data['headers'];
 }
@@ -48,7 +50,7 @@ add_action('woocommerce_account_saucal_api_custom_tab_endpoint', function () {
         }
     }
 
-    $preference = get_user_meta($user_id, USER_PREFERENCE, true);
+    $preference = get_user_meta($user_id, Constants::USER_PREFERENCE, true);
     $user_preferences = explode(",", $preference);
     $data = fetch_api_data($user_preferences);
 

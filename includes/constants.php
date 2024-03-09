@@ -1,6 +1,9 @@
 <?php
 namespace includes;
 
-define( 'USER_PREFERENCE', 'api-preferences' );
-define( 'CACHE_NAME', 'saucal_api_results' );
-define( 'API_URL', 'custom_api_url_field' );
+class Constants{
+
+    public const USER_PREFERENCE = 'api-preferences';
+    public const CACHE_NAME = 'saucal_api_results';
+    public const API_URL = 'custom_api_url_field';
+}

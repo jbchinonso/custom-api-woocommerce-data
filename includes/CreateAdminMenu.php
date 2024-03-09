@@ -5,6 +5,8 @@
 
 namespace includes;
 
+use includes\Constants;
+
 class CreateAdminMenu {
 
     private $slug = 'saucal-custom-api-woocommerce-data';
@@ -61,7 +63,7 @@ class CreateAdminMenu {
         );
 
         add_settings_field(
-            API_URL,
+            Constants::API_URL,
             __( 'Custom API url:', 'saucal' ),
             [ $this, 'custom_api_url_field_cb' ],
             $this->slug,

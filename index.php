@@ -18,48 +18,63 @@ namespace App;
 if ( !defined( 'ABSPATH' ) ): exit();
 endif;
 
-spl_autoload_register(function ($class) {
-    $baseDir = plugin_dir_path(__FILE__);
-    $class_path = $baseDir . str_replace('\\', '/', $class) . '.php';
+define('SAUCAL_PATH', trailingslashit(plugin_dir_path(__FILE__)));
 
-    if (file_exists($class_path)) {
-        require_once $class_path;
-    }
-
-});
-
-
-define( 'SAUCAL_PATH', trailingslashit( plugin_dir_path( __FILE__ ) ) );
-
-require_once SAUCAL_PATH . 'includes/constants.php';
 require_once SAUCAL_PATH . 'functions.php';
 
-use includes\CreateAdminMenu;
 use includes\SaucalWidget;
+use includes\CreateAdminMenu;
 
 
-new CreateAdminMenu();
 
-//Register Styles
-function saucal_enqueue_plugin_assets()
-{
-    wp_register_style(
-        'saucal_api_style',
-        plugins_url('assets/saucal-main.css', __FILE__),
-        [],
-        filemtime(SAUCAL_PATH . 'assets/saucal-main.css')
-    );
+class App {
 
-    wp_enqueue_style('saucal_api_style');
+
+    public function __construct(){
+
+        $this->loadClasses();
+        new CreateAdminMenu();
+       add_action('wp_enqueue_scripts', [$this, 'enqueue_plugin_assets']);
+       add_action('widgets_init', [$this, 'register_widgets']);
+
+
+    }
+
+    public function loadClasses(){
+        spl_autoload_register(function ($class) {
+            $baseDir = plugin_dir_path(__FILE__);
+            $class_path = $baseDir . str_replace('\\', '/', $class) . '.php';
+
+            if (file_exists($class_path)) {
+                require_once $class_path;
+            }
+
+        });
+
+    }
+
+    public function enqueue_plugin_assets()
+        {
+            wp_register_style(
+                'saucal_api_style',
+                plugins_url('assets/saucal-main.css', __FILE__),
+                [],
+                filemtime(SAUCAL_PATH . 'assets/saucal-main.css')
+            );
+
+            wp_enqueue_style('saucal_api_style');
+
+        }
+
+    public function register_widgets()
+        {
+            return register_widget('includes\SaucalWidget');
+        }
+
 
 }
 
+new App();
 
-add_action('wp_enqueue_scripts', 'App\saucal_enqueue_plugin_assets');
 
 
-function register_widgets()
-{
-    return register_widget('includes\SaucalWidget');
-}
-add_action('widgets_init', 'App\register_widgets');
