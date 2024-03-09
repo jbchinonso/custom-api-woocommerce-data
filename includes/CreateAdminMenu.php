@@ -9,12 +9,21 @@ use includes\Constants;
 
 class CreateAdminMenu {
 
+    private static $instance;
     private $slug = 'saucal-custom-api-woocommerce-data';
 
     public function __construct() {
 
         add_action( 'admin_menu', [ $this, 'create_admin_menu' ] );
         add_action( 'admin_init', [ $this, 'saucal_settings_fields' ] );
+    }
+
+    public static function getInstance(){
+        if(!isset(self::$instance)){
+            self::$instance = new self();
+        }
+
+        return self::$instance;
     }
 
     public function create_admin_menu() {

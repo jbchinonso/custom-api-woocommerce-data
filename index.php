@@ -33,7 +33,7 @@ class App {
     public function __construct(){
 
         $this->loadClasses();
-        new CreateAdminMenu();
+        CreateAdminMenu::getInstance();
        add_action('wp_enqueue_scripts', [$this, 'enqueue_plugin_assets']);
        add_action('widgets_init', [$this, 'register_widgets']);
 
@@ -53,8 +53,7 @@ class App {
 
     }
 
-    public function enqueue_plugin_assets()
-        {
+    public function enqueue_plugin_assets(){
             wp_register_style(
                 'saucal_api_style',
                 plugins_url('assets/saucal-main.css', __FILE__),
@@ -64,12 +63,12 @@ class App {
 
             wp_enqueue_style('saucal_api_style');
 
-        }
+     }
 
-    public function register_widgets()
-        {
-            return register_widget('includes\SaucalWidget');
-        }
+    public function register_widgets(){
+           
+        return register_widget('includes\SaucalWidget');
+    }
 
 
 }
