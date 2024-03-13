@@ -37,7 +37,6 @@ class App {
        add_action('wp_enqueue_scripts', [$this, 'enqueue_plugin_assets']);
        add_action('widgets_init', [$this, 'register_widgets']);
 
-
     }
 
     public function loadClasses(){

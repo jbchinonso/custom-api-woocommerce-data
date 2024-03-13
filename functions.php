@@ -46,7 +46,7 @@ add_action('woocommerce_account_saucal_api_custom_tab_endpoint', function () {
     if (isset($_POST['api-preferences'])) {
         if(isset($_POST['saucal_nonce']) && wp_verify_nonce($_POST['saucal_nonce'], "")){
             
-            update_user_meta($user_id, USER_PREFERENCE, sanitize_text_field($_POST['api-preferences']));
+            update_user_meta($user_id, Constants::USER_PREFERENCE, sanitize_text_field($_POST['api-preferences']));
         }
     }
 
